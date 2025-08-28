@@ -48,9 +48,11 @@ public class LudoApplication extends Application {
         border.setTop(menuBar);
 
         stage.show();
+        LudoController.start();
     }
 
     private void setUpBoardUI(Pane root) {
+        //general setup
         Board board = Board.getInstance();
         HBox board_root = new HBox();
         root.getChildren().add(board_root);
@@ -59,6 +61,7 @@ public class LudoApplication extends Application {
         board_root.setPrefWidth(500);
         board_root.setPrefHeight(500);
 
+        //grid setup
         GridPane grid = new GridPane();
         grid.setMinSize(WINDOW_WIDTH, WINDOW_WIDTH);
         for(int i = 0; i < 15; i++) {
@@ -74,15 +77,17 @@ public class LudoApplication extends Application {
         grid.setGridLinesVisible(true);
         board_root.getChildren().add(grid);
 
+        //finish zone general setup
         AnchorPane finish_zones = new AnchorPane();
         grid.add(finish_zones, 6, 6, 3, 3);
         finish_zones.setStyle("-fx-background-color: grey");
 
-
+        //green zones setup
         HBox green_box = new HBox();
         green_box.setStyle("-fx-background-color: green");
         grid.add(green_box, 0, 0, 6, 6);
         addCircle(green_box);
+
         Polygon green_finish = new Polygon();
         green_finish.getPoints().addAll(new Double[]{
                 0.0, 0.0,
@@ -95,6 +100,7 @@ public class LudoApplication extends Application {
         AnchorPane.setLeftAnchor(green_finish, 0.0);
 
 
+        //Yellow zones setup
         HBox yellow_box = new HBox();
         yellow_box.setStyle("-fx-background-color: yellow");
         grid.add(yellow_box, 9, 0, 6, 6);
@@ -110,6 +116,8 @@ public class LudoApplication extends Application {
         AnchorPane.setTopAnchor(yellow_finish, 0.0);
         AnchorPane.setLeftAnchor(yellow_finish, 0.0);
 
+
+        //Blue zones setup
         HBox blue_box = new HBox();
         blue_box.setStyle("-fx-background-color: blue");
         grid.add(blue_box, 9, 9, 6, 6);
@@ -125,6 +133,8 @@ public class LudoApplication extends Application {
         AnchorPane.setTopAnchor(blue_finish, 0.0);
         AnchorPane.setLeftAnchor(blue_finish, finish_zone_width / 2);
 
+
+        //Red zones setup
         HBox red_box = new HBox();
         red_box.setStyle("-fx-background-color: red");
         grid.add(red_box, 0, 9, 6, 6);
@@ -140,6 +150,13 @@ public class LudoApplication extends Application {
         AnchorPane.setTopAnchor(red_finish, finish_zone_width / 2);
         AnchorPane.setLeftAnchor(red_finish, 0.0);
 
+
+        //Spaces setup
+        //Point[] path_positions = generatePathPositions();
+        int current_position = 0;
+        for(Space space : board.getSpaces()) {
+            Pane space_root = space.getRoot();
+        }
     }
 
     private void addCircle(HBox box) {
@@ -155,5 +172,31 @@ public class LudoApplication extends Application {
         root.getChildren().add(controls_root);
         controls_root.setAlignment(Pos.TOP_LEFT);
         controls_root.setStyle("-fx-background-color: lightgray");
+    }
+
+    private Point[] generatePathPositions() {
+        Point[] points = new Point[56];
+        int pos = 0;
+        Point point = new Point(6, 13);
+
+        for(int i = 0; i < 5; i++) {
+            points[pos++] = point;
+            point = Point.up(point);
+        }
+        point = Point.left(point);
+        points[pos++] = point;
+        for(int i = 0; i < 5; i++) {
+            point = Point.left(point);
+            points[pos++] = point;
+        }
+        for(int i = 0; i < 3; i++) {
+            point = Point.up(point);
+            points[pos++] = point;
+        }
+        for(int i = 0; i < 6; i++) {
+            point = Point.right(point);
+            points[pos++] = point;
+        }
+
     }
 }
