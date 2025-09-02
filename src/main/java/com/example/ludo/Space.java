@@ -15,20 +15,20 @@ public class Space {
         this.root = root;
         this.position = position;
 
-        if(position % 14 == 0) {
+        if(position % 13 == 0) {
             this.safe = true;
-            switch (position / 14) {
+            switch (position / 13) {
                 case 0:
-                    root.setStyle("-fx-backgorund-color: red");
+                    root.setStyle("-fx-background-color: darkred");
                     break;
                 case 1:
-                    root.setStyle("-fx-backgorund-color: green");
+                    root.setStyle("-fx-background-color: darkgreen");
                     break;
                 case 2:
-                    root.setStyle("-fx-backgorund-color: yellow");
+                    root.setStyle("-fx-background-color: gold");
                     break;
                 case 3:
-                    root.setStyle("-fx-backgorund-color: blue");
+                    root.setStyle("-fx-background-color: darkblue");
                     break;
 
             }
@@ -50,4 +50,5 @@ public class Space {
     }
 
     public Pane getRoot() { return root; }
+
 }

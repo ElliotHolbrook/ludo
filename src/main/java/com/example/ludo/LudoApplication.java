@@ -152,11 +152,16 @@ public class LudoApplication extends Application {
 
 
         //Spaces setup
-        //Point[] path_positions = generatePathPositions();
-        int current_position = 0;
-        for(Space space : board.getSpaces()) {
-            Pane space_root = space.getRoot();
+        Point[] path_positions = generatePathPositions();
+        Pane[] space_roots = new Pane[52];
+        int index = 0;
+        for(Point point : path_positions) {
+            Pane space_root = new HBox();
+            grid.add(space_root, point.x(), point.y());
+            space_roots[index++] = space_root;
         }
+
+        board.setSpaces(space_roots);
     }
 
     private void addCircle(HBox box) {
@@ -175,28 +180,82 @@ public class LudoApplication extends Application {
     }
 
     private Point[] generatePathPositions() {
-        Point[] points = new Point[56];
+        Point[] points = new Point[52];
         int pos = 0;
+
+        //first part of bottom sect
         Point point = new Point(6, 13);
 
         for(int i = 0; i < 5; i++) {
             points[pos++] = point;
             point = Point.up(point);
         }
+
+        //left sect
         point = Point.left(point);
         points[pos++] = point;
         for(int i = 0; i < 5; i++) {
             point = Point.left(point);
             points[pos++] = point;
         }
-        for(int i = 0; i < 3; i++) {
+        for(int i = 0; i < 2; i++) {
             point = Point.up(point);
             points[pos++] = point;
         }
+        for(int i = 0; i < 5; i++) {
+            point = Point.right(point);
+            points[pos++] = point;
+        }
+
+        //top sect
+        point = Point.right(point);
+
+        for(int i = 0; i < 6; i++) {
+            point = Point.up(point);
+            points[pos++] = point;
+        }
+
+        for(int i = 0; i < 2; i++) {
+            point = Point.right(point);
+            points[pos++] = point;
+        }
+
+        for(int i = 0; i < 5; i++) {
+            point = Point.down(point);
+            points[pos++] = point;
+        }
+
+        //right sect
+        point = Point.down(point);
+
         for(int i = 0; i < 6; i++) {
             point = Point.right(point);
             points[pos++] = point;
         }
 
+        for(int i = 0; i < 2; i++) {
+            point = Point.down(point);
+            points[pos++] = point;
+        }
+
+        for(int i = 0; i < 5; i++) {
+            point = Point.left(point);
+            points[pos++] = point;
+        }
+
+        //remainder of bottom sect
+        point = Point.left(point);
+
+        for(int i = 0; i < 6; i++) {
+            point = Point.down(point);
+            points[pos++] = point;
+        }
+
+        for(int i = 0; i < 2; i++) {
+            point = Point.left(point);
+            points[pos++] = point;
+        }
+
+        return points;
     }
 }

@@ -14,6 +14,6 @@ public record Point(int x, int y) {
     }
 
     public static Point down(Point point) {
-        return new Point(point.x() + 1, point.y() + 1);
+        return new Point(point.x(),point.y() + 1);
     }
 }

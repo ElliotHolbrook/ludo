@@ -17,11 +17,7 @@ class Board {
     private Board() {
         players = new Player[4];
         createPlayers();
-        spaces = new Space[56];
-
-        for(int i = 0; i < 56; i++) {
-            spaces[i] = new Space(i, new HBox());
-        }
+        spaces = new Space[52];
 
     }
 
@@ -56,4 +52,11 @@ class Board {
     public Player[] getPlayers() { return players; }
     public Space[] getSpaces() { return spaces; }
 
+    public void setSpaces(Pane[] roots) {
+        int index = 0;
+        for(Pane root : roots) {
+            Space space = new Space(index, root);
+            this.addSpace(space, index++);
+        }
+    }
 }
