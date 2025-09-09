@@ -27,7 +27,7 @@ public class LudoApplication extends Application {
         BorderPane border = new BorderPane();
         VBox root = new VBox();
         border.setCenter(root);
-        root.setStyle("-fx-background-color: lightgrey");
+        root.setStyle("-fx-background-color: lightgrey;");
         Scene scene = new Scene(border);
         stage.setTitle("Ludo");
         stage.setWidth(WINDOW_WIDTH);
@@ -57,7 +57,7 @@ public class LudoApplication extends Application {
         HBox board_root = new HBox();
         root.getChildren().add(board_root);
         board_root.setAlignment(Pos.TOP_LEFT);
-        board_root.setStyle("-fx-background-color: grey");
+        board_root.setStyle("-fx-background-color: grey;");
         board_root.setPrefWidth(500);
         board_root.setPrefHeight(500);
 
@@ -80,11 +80,11 @@ public class LudoApplication extends Application {
         //finish zone general setup
         AnchorPane finish_zones = new AnchorPane();
         grid.add(finish_zones, 6, 6, 3, 3);
-        finish_zones.setStyle("-fx-background-color: grey");
+        finish_zones.setStyle("-fx-background-color: grey;");
 
         //green zones setup
         HBox green_box = new HBox();
-        green_box.setStyle("-fx-background-color: green");
+        green_box.setStyle("-fx-background-color: green;");
         grid.add(green_box, 0, 0, 6, 6);
         addCircle(green_box);
 
@@ -102,7 +102,7 @@ public class LudoApplication extends Application {
 
         //Yellow zones setup
         HBox yellow_box = new HBox();
-        yellow_box.setStyle("-fx-background-color: yellow");
+        yellow_box.setStyle("-fx-background-color: yellow;");
         grid.add(yellow_box, 9, 0, 6, 6);
         addCircle(yellow_box);
         Polygon yellow_finish = new Polygon();
@@ -119,7 +119,7 @@ public class LudoApplication extends Application {
 
         //Blue zones setup
         HBox blue_box = new HBox();
-        blue_box.setStyle("-fx-background-color: blue");
+        blue_box.setStyle("-fx-background-color: blue;");
         grid.add(blue_box, 9, 9, 6, 6);
         addCircle(blue_box);
         Polygon blue_finish = new Polygon();
@@ -136,7 +136,7 @@ public class LudoApplication extends Application {
 
         //Red zones setup
         HBox red_box = new HBox();
-        red_box.setStyle("-fx-background-color: red");
+        red_box.setStyle("-fx-background-color: red;");
         grid.add(red_box, 0, 9, 6, 6);
         addCircle(red_box);
         Polygon red_finish = new Polygon();
@@ -162,6 +162,9 @@ public class LudoApplication extends Application {
         }
 
         board.setSpaces(space_roots);
+
+        //end spaces setup
+        setUpEndSpaces(grid);
     }
 
     private void addCircle(HBox box) {
@@ -170,13 +173,6 @@ public class LudoApplication extends Application {
         circle.setFill(Color.LIGHTGREY);
         HBox.setMargin(circle, new Insets(margin));
         box.getChildren().add(circle);
-    }
-
-    private void setUpControlsUI(Pane root) {
-        HBox controls_root = new HBox();
-        root.getChildren().add(controls_root);
-        controls_root.setAlignment(Pos.TOP_LEFT);
-        controls_root.setStyle("-fx-background-color: lightgray");
     }
 
     private Point[] generatePathPositions() {
@@ -257,5 +253,58 @@ public class LudoApplication extends Application {
         }
 
         return points;
+    }
+
+    private void setUpEndSpaces(GridPane grid) {
+        Board board = Board.getInstance();
+
+        Point point = new Point(7, 13);
+        for(int i = 0; i < 5; i++) {
+            Pane space_root = new HBox();
+            grid.add(space_root, point.x(), point.y());
+            EndSpace end_space = new EndSpace(i, space_root, Colour.RED);
+            board.addEndSpace(end_space);
+
+            point = Point.up(point);
+        }
+
+        point = new Point(1, 7);
+        for(int i = 0; i < 5; i++) {
+            Pane space_root = new HBox();
+            grid.add(space_root, point.x(), point.y());
+            EndSpace end_space = new EndSpace(i, space_root, Colour.GREEN);
+            board.addEndSpace(end_space);
+
+            point = Point.right(point);
+
+        }
+
+        point = new Point(7, 1);
+        for(int i = 0; i < 5; i++) {
+            Pane space_root = new HBox();
+            grid.add(space_root, point.x(), point.y());
+            EndSpace end_space = new EndSpace(i, space_root, Colour.YELLOW);
+            board.addEndSpace(end_space);
+
+            point = Point.down(point);
+
+        }
+
+        point = new Point(13, 7);
+        for(int i = 0; i < 5; i++) {
+            Pane space_root = new HBox();
+            grid.add(space_root, point.x(), point.y());
+            EndSpace end_space = new EndSpace(i, space_root, Colour.BLUE);
+            board.addEndSpace(end_space);
+
+            point = Point.left(point);
+        }
+    }
+
+    private void setUpControlsUI(Pane root) {
+        HBox controls_root = new HBox();
+        root.getChildren().add(controls_root);
+        controls_root.setAlignment(Pos.TOP_LEFT);
+        controls_root.setStyle("-fx-background-color: lightgray;");
     }
 }
